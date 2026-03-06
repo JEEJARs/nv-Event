@@ -1,8 +1,6 @@
 <template>
   <div>
     <h2>Get all users</h2>
-    <p><button v-on:click="logout2()">Logout</button></p>
-    <p><button v-on:click="navigateTo('/user/create')">สร้างผู้ใช้</button></p>
     <h4>จำนวนผู้ใช้งาน {{ users.length }}</h4>
     <div v-for="user in users" v-bind:key="user.id">
       <p>id: {{ user.id }}</p>
@@ -13,6 +11,10 @@
       <p><button v-on:click="navigateTo('/user/edit/' + user.id)">แก้ไขข้อมูล</button></p>
       <p><button v-on:click=deleteUser(user)>ลบข้อมูล</button></p>
       <hr>
+    </div>
+    
+    <div class="logout-section">
+      <p><button v-on:click="logout" class="logout-btn">Logout</button></p>
     </div>
   </div>
 </template>
@@ -64,5 +66,24 @@ export default {
 </script>
 
 <style scoped>
-/* CSS เฉพาะหน้านี้ */
+.logout-section {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+.logout-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
 </style>

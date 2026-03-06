@@ -1,18 +1,19 @@
 <template>
   <div>
-    <h2>Get all blogs</h2>
-    <h4>จำนวน blog {{ blogs.length }}</h4>
+    <h2>Get all events</h2>
+    <h4>จำนวน event {{ events.length }}</h4>
     
-    <div v-for="blog in blogs" v-bind:key="blog.id">
-      <p>id: {{ blog.id }}</p>
-      <p>title: {{ blog.title }}</p>
-      <p>content: {{ blog.content }}</p>
-      <p>category: {{ blog.category }}</p>
-      <p>status: {{ blog.status }}</p>
+    <div v-for="event in events" v-bind:key="event.id">
+      <p>id: {{ event.id }}</p>
+      <p>title: {{ event.title }}</p>
+      <p>description: {{ event.description }}</p>
+      <p>location: {{ event.location }}</p>
+      <p>date: {{ event.date }}</p>
+      <p>organizer: {{ event.organizer }}</p>
       <p>
-        <button v-on:click="navigateTo('/blog/'+ blog.id)">ดู blog</button>
-        <button v-on:click="navigateTo('/blog/edit/'+ blog.id)">แก้ไข blog</button>
-        <button v-on:click="deleteBlog(blog)">ลบข้อมูล</button>
+        <button v-on:click="navigateTo('/event/'+ event.id)">ดู event</button>
+        <button v-on:click="navigateTo('/event/edit/'+ event.id)">แก้ไข event</button>
+        <button v-on:click="deleteEvent(event)">ลบข้อมูล</button>
       </p>
       <hr>
     </div>
@@ -24,22 +25,22 @@
 </template>
 
 <script>
-import BlogsService from '../../services/BlogsService'
+import EventsService from '../../services/EventsService'
 
 export default {
   data () {
     return {
-      blogs: []
+      events: []
     }
   },
   async created () {
     // เรียกใช้ Service เพื่อดึงข้อมูลเมื่อ Component ถูกโหลด [6]
-    this.blogs = (await BlogsService.index()).data
+    this.events = (await EventsService.index()).data
   },
   methods: {
     logout () {
       this.$store.dispatch('setToken', null)
-      this.$store.dispatch('setBlog', null)
+      this.$store.dispatch('setEvent', null)
       this.$router.push({
         name: 'login'
       })
@@ -48,11 +49,11 @@ export default {
       this.$router.push(route) // สั่งเปลี่ยนหน้าด้วย Vue Router [5]
     },
     
-    async deleteBlog (blog) {
+    async deleteEvent (event) {
       let result = confirm("Want to delete?")
       if (result) {
         try {
-          await BlogsService.delete(blog)
+          await EventsService.delete(event)
           this.refreshData()
         } catch (err) {
           console.log(err)
@@ -60,7 +61,7 @@ export default {
       }
     },
     async refreshData() {
-      this.blogs = (await BlogsService.index()).data
+      this.events = (await EventsService.index()).data
     }
   }
 }

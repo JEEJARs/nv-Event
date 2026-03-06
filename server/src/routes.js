@@ -2,8 +2,9 @@ const isAuthenController = require('./controllers/isAuthenController')
 const UserController = require('./controllers/UserController')
 const UserAuthenController = require('./controllers/UserAuthenController')
 const BlogController = require('./controllers/BlogController')
-const UploadController = require('./controllers/UploadController')
+const UploadController = require('./controllers/UploadController')
 const EventController = require('./controllers/EventController')
+const ModelController = require('./controllers/ModelController')
 const fileUploadMiddleware = require('./middleware/fileUpload') // Import Middleware
 
 module.exports = (app) => {
@@ -46,4 +47,7 @@ module.exports = (app) => {
   app.delete('/event/:eventId', EventController.remove)
   app.get('/event/:eventId', EventController.show)
   app.get('/events', EventController.index)
+
+  // Get available models for dynamic navbar
+  app.get('/models', ModelController.getModels)
 }

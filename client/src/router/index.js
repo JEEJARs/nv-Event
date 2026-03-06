@@ -10,6 +10,12 @@ import BlogCreate from '../components/Blogs/CreateBlog.vue'
 import BlogEdit from '../components/Blogs/EditBlog.vue'
 import BlogShow from '../components/Blogs/ShowBlog.vue'
 
+// Event components (placeholder - you'll need to create these)
+const EventIndex = () => import('../components/Events/Index.vue')
+const EventCreate = () => import('../components/Events/CreateEvent.vue')
+const EventEdit = () => import('../components/Events/EditEvent.vue')
+const EventShow = () => import('../components/Events/ShowEvent.vue')
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +69,26 @@ const router = createRouter({
       path: '/blog/:blogId',
       name: 'blog',
       component: BlogShow
+    },
+    {
+      path: '/events',
+      name: 'events',
+      component: EventIndex
+    },
+    {
+      path: '/event/create',
+      name: 'events-create',
+      component: EventCreate
+    },
+    {
+      path: '/event/edit/:eventId',
+      name: 'event-edit',
+      component: EventEdit
+    },
+    {
+      path: '/event/:eventId',
+      name: 'event',
+      component: EventShow
     },
   ]
 })

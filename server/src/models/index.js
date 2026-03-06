@@ -17,9 +17,14 @@ fs.readdirSync(__dirname)
         return (file.indexOf('.') !== 0) && (file !== 'index.js')
     })
     .forEach((file) => {
-        // วิธีเรียกใช้ Model แบบใหม่ (Modern Sequelize)
-        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
-        db[model.name] = model
+        try {
+            // วิธีเรียกใช้ Model แบบใหม่ (Modern Sequelize)
+            const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
+            db[model.name] = model
+            console.log(`Model loaded: ${model.name}`)
+        } catch (error) {
+            console.error(`Error loading model ${file}:`, error.message)
+        }
     })
 
 db.sequelize = sequelize
