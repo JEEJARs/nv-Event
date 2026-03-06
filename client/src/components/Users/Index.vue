@@ -1,12 +1,14 @@
 <template>
   <div>
     <h2>Get all users</h2>
+    <p><button v-on:click="navigateTo('/user/create')" class="create-btn">สร้างผู้ใช้</button></p>
     <h4>จำนวนผู้ใช้งาน {{ users.length }}</h4>
     <div v-for="user in users" v-bind:key="user.id">
       <p>id: {{ user.id }}</p>
       <p>ชื่อ-นามสกุล: {{ user.name }} - {{ user.lastname }}</p>
       <p>email: {{ user.email }}</p>
       <p>password: {{ user.password }}</p>
+      <p class="timestamp">Created: {{ formatDate(user.createdAt) }} | Updated: {{ formatDate(user.updatedAt) }}</p>
       <p><button v-on:click="navigateTo('/user/' + user.id)">ดูข้อมูลผู้ใช้</button></p>
       <p><button v-on:click="navigateTo('/user/edit/' + user.id)">แก้ไขข้อมูล</button></p>
       <p><button v-on:click=deleteUser(user)>ลบข้อมูล</button></p>
@@ -59,6 +61,17 @@ export default {
         name: 'login'
       })
     },
+    formatDate(dateString) {
+      if (!dateString) return 'N/A'
+      const date = new Date(dateString)
+      return date.toLocaleString('th-TH', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    }
   },
 
 
@@ -85,5 +98,27 @@ export default {
 
 .logout-btn:hover {
   background-color: #c82333;
+}
+
+.timestamp {
+  color: #666;
+  font-size: 0.9em;
+  font-style: italic;
+  margin: 5px 0;
+}
+
+.create-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.create-btn:hover {
+  background-color: #218838;
 }
 </style>

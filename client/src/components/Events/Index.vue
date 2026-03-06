@@ -2,6 +2,7 @@
   <div>
     <h2>Get all events</h2>
     <h4>จำนวน event {{ events.length }}</h4>
+    <p><button v-on:click="navigateTo('/event/create')" class="create-btn">สร้าง event</button></p>
     
     <div v-for="event in events" v-bind:key="event.id">
       <p>id: {{ event.id }}</p>
@@ -10,6 +11,7 @@
       <p>location: {{ event.location }}</p>
       <p>date: {{ event.date }}</p>
       <p>organizer: {{ event.organizer }}</p>
+      <p class="timestamp">Created: {{ formatDate(event.createdAt) }} | Updated: {{ formatDate(event.updatedAt) }}</p>
       <p>
         <button v-on:click="navigateTo('/event/'+ event.id)">ดู event</button>
         <button v-on:click="navigateTo('/event/edit/'+ event.id)">แก้ไข event</button>
@@ -62,6 +64,17 @@ export default {
     },
     async refreshData() {
       this.events = (await EventsService.index()).data
+    },
+    formatDate(dateString) {
+      if (!dateString) return 'N/A'
+      const date = new Date(dateString)
+      return date.toLocaleString('th-TH', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
     }
   }
 }
@@ -86,5 +99,27 @@ export default {
 
 .logout-btn:hover {
   background-color: #c82333;
+}
+
+.timestamp {
+  color: #666;
+  font-size: 0.9em;
+  font-style: italic;
+  margin: 5px 0;
+}
+
+.create-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.create-btn:hover {
+  background-color: #218838;
 }
 </style>
